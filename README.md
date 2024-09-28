@@ -100,3 +100,54 @@ graph TD
 ```
 
 This overview provides a structured look at SQL categories, their focuses, and main operations. It also includes a simple diagram to visualize the relationships between different SQL components.
+
+
+# Creating a Database in SQL Server Management Studio (SSMS)
+
+## Steps to Create a Database
+
+1. **Open SQL Server Management Studio (SSMS)**
+   - SSMS is a graphical tool for managing SQL Server databases
+
+2. **Create a New Query**
+   - Click on "New Query" to open a new query window
+
+3. **Write the CREATE DATABASE command**
+   ```sql
+   CREATE DATABASE CompanyG02
+   ```
+
+4. **Execute the command**
+   - Select the command and press F5, or click the "Execute" button
+
+5. **Refresh the database list**
+   - Right-click on "Databases" in the Object Explorer and select "Refresh"
+
+6. **Verify the new database**
+   - Look for "CompanyG02" in the list of databases
+   - It will have folders for different object types (Tables, Views, etc.)
+
+7. **Set the context to the new database**
+   ```sql
+   USE CompanyG02
+   GO
+   ```
+
+## Visual Process Flow
+
+```mermaid
+graph TD
+    A[Open SSMS] --> B[Create New Query]
+    B --> C[Write CREATE DATABASE Command]
+    C --> D[Execute Command]
+    D --> E[Refresh Database List]
+    E --> F[Verify New Database]
+    F --> G[Set Database Context]
+```
+
+## Key Points
+
+- This process uses Data Definition Language (DDL), specifically the CREATE command
+- The database name (CompanyG02) can be changed as needed
+- After creation, the database will be empty and ready for you to add tables and other objects
+- Using the USE command ensures subsequent commands apply to your new database
