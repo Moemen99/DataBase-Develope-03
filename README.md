@@ -151,3 +151,69 @@ graph TD
 - The database name (CompanyG02) can be changed as needed
 - After creation, the database will be empty and ready for you to add tables and other objects
 - Using the USE command ensures subsequent commands apply to your new database
+
+# Creating a Table in SQL Server Management Studio (SSMS)
+
+## Switching to the Correct Database
+
+Before creating a table, ensure you're working in the correct database:
+
+1. **Use the USE statement:**
+   ```sql
+   USE CompanyG02
+   GO
+   ```
+
+2. **Or use the GUI:**
+   - Select your database from the dropdown menu in SSMS
+
+## Creating the Employees Table
+
+Here's the SQL command to create an Employees table:
+
+```sql
+CREATE TABLE Employees
+(
+    FName varchar(20) NOT NULL,  -- Required
+    LName varchar(20) NULL,      -- Optional
+    Id int PRIMARY KEY IDENTITY(1,1)
+)
+```
+
+### Breakdown of the Table Structure:
+
+1. **Table Name:** Employees (plural)
+
+2. **Columns:**
+   - `FName`: First Name
+     - Type: varchar(20)
+     - Constraint: NOT NULL (Required)
+   - `LName`: Last Name
+     - Type: varchar(20)
+     - Constraint: NULL (Optional, default behavior)
+   - `Id`: Employee ID
+     - Type: int
+     - Constraints: 
+       - PRIMARY KEY
+       - IDENTITY(1,1) (Auto-incrementing)
+
+## Key Points:
+
+- By default, columns allow NULL values (optional) unless specified otherwise
+- The PRIMARY KEY constraint ensures each row has a unique identifier
+- The IDENTITY(1,1) constraint auto-generates ID values:
+  - Seed (starting value): 1
+  - Increment: 1
+
+## Visual Table Structure
+
+```mermaid
+erDiagram
+    Employees {
+        int Id PK
+        varchar(20) FName
+        varchar(20) LName
+    }
+```
+
+Remember to execute the CREATE TABLE command in SSMS to create the table in your database.
