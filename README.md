@@ -295,16 +295,16 @@ CREATE TABLE Employees
 erDiagram
     Employees {
         int Id PK
-        varchar(20) FName
-        varchar(20) LName
+        varchar20 FName
+        varchar20 LName
         Date BDate
-        varchar(30) Address
-        char(1) Gender
-        decimal(10,2) Salary
+        varchar30 Address
+        char1 Gender
+        decimal10_2 Salary
         int FK_SuperId FK
         int DeptNumber
     }
-    Employees ||--o{ Employees : supervises
+    Employees ||--o{ Employees : "supervises"
 ```
 
 ## Execution
