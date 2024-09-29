@@ -217,3 +217,104 @@ erDiagram
 ```
 
 Remember to execute the CREATE TABLE command in SSMS to create the table in your database.
+
+
+
+# Creating the Employees Table in SQL Server Management Studio (SSMS)
+
+## Switching to the Correct Database
+
+Before creating a table, ensure you're working in the correct database:
+
+```sql
+USE CompanyG02
+GO
+```
+
+## Creating the Employees Table
+
+Here's the SQL command to create an Employees table with all specified columns and constraints:
+
+```sql
+CREATE TABLE Employees
+(
+    Id int PRIMARY KEY IDENTITY(1,1),
+    FName varchar(20) NOT NULL,
+    LName varchar(20) NULL,
+    BDate Date,
+    [Address] varchar(30) DEFAULT 'Cairo',
+    Gender char(1),
+    Salary decimal(10,2),
+    FK_SuperId int REFERENCES Employees(Id),
+    DeptNumber int
+)
+```
+
+### Breakdown of the Table Structure:
+
+1. **Table Name:** Employees (plural)
+
+2. **Columns:**
+   - `Id`: Employee ID
+     - Type: int
+     - Constraints: PRIMARY KEY, IDENTITY(1,1) (Auto-incrementing)
+   - `FName`: First Name
+     - Type: varchar(20)
+     - Constraint: NOT NULL (Required)
+   - `LName`: Last Name
+     - Type: varchar(20)
+     - Constraint: NULL (Optional, default behavior)
+   - `BDate`: Birth Date
+     - Type: Date
+   - `Address`: Employee Address
+     - Type: varchar(30)
+     - Constraint: DEFAULT 'Cairo'
+   - `Gender`: Employee Gender
+     - Type: char(1)
+   - `Salary`: Employee Salary
+     - Type: decimal(10,2) (10 digits total, 2 after decimal point)
+   - `FK_SuperId`: Supervisor's ID
+     - Type: int
+     - Constraint: FOREIGN KEY referencing Employees(Id) (Self-relationship)
+   - `DeptNumber`: Department Number
+     - Type: int
+     - Note: Will be set as a foreign key later
+
+## Key Points:
+
+1. The PRIMARY KEY (Id) is now the first column for better readability and performance.
+2. `Address` is a reserved keyword, so it's enclosed in square brackets `[]`.
+3. The `DEFAULT` constraint on `Address` sets 'Cairo' as the default value.
+4. `Salary` is set as `decimal(10,2)` for precise monetary values.
+5. `FK_SuperId` creates a self-relationship within the Employees table.
+6. `DeptNumber` will be set as a foreign key to the Departments table later using an ALTER TABLE command.
+
+## Visual Table Structure
+
+```mermaid
+erDiagram
+    Employees {
+        int Id PK
+        varchar(20) FName
+        varchar(20) LName
+        Date BDate
+        varchar(30) Address
+        char(1) Gender
+        decimal(10,2) Salary
+        int FK_SuperId FK
+        int DeptNumber
+    }
+    Employees ||--o{ Employees : supervises
+```
+
+## Execution
+
+After writing the CREATE TABLE command in SSMS:
+1. Select the entire command
+2. Click "Execute" or press F5 to run the command
+
+Remember to refresh your database objects in the Object Explorer to see the newly created table.
+
+## Future Modifications
+
+The `DeptNumber` column will be set as a foreign key referencing the Departments table after that table is created. This will be done using an ALTER TABLE command, which we'll cover in a future session.
