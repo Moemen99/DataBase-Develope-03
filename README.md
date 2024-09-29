@@ -318,3 +318,73 @@ Remember to refresh your database objects in the Object Explorer to see the newl
 ## Future Modifications
 
 The `DeptNumber` column will be set as a foreign key referencing the Departments table after that table is created. This will be done using an ALTER TABLE command, which we'll cover in a future session.
+
+
+
+
+## Table Structure in SSMS Object Explorer
+
+After creating the Employees table, you'll see the following structure in the Object Explorer:
+
+- Employees (table)
+  - Columns
+    - [List of all columns]
+  - Keys
+    - Primary Key (Id)
+    - Foreign Key (FK_SuperId)
+  - Constraints
+    - Default constraint (Address)
+  - Triggers
+  - Indexes
+  - Statistics
+
+Note: The NOT NULL and IDENTITY constraints are not listed separately in the Constraints folder.
+
+## Viewing Table Design
+
+To view the table design:
+
+1. Right-click on the Employees table in Object Explorer
+2. Select "Design"
+
+The design view shows three columns:
+1. Column Name
+2. Data Type
+3. Allow Nulls
+
+This view allows you to see the structure of your table at a glance and make modifications if needed.
+
+## Viewing and Editing Table Data
+
+To view and edit the data in the Employees table:
+
+1. Right-click on the Employees table in Object Explorer
+2. Select "Edit Top 200 Rows"
+
+This opens a page showing:
+- The first 200 employees in the table
+- A grid-like interface for viewing and editing data
+- Pagination controls at the bottom of the page for navigating through larger datasets
+
+This view allows you to quickly inspect and modify the data in your table.
+
+## Visual Representation of SSMS Interaction
+
+```mermaid
+graph TD
+    A[Employees Table] --> B[Columns]
+    A --> C[Keys]
+    A --> D[Constraints]
+    A --> E[Triggers]
+    A --> F[Indexes]
+    A --> G[Statistics]
+    A --> H[Right-click Options]
+    H --> I[Design]
+    H --> J[Edit Top 200 Rows]
+    I --> K[View Column Name, Data Type, Allow Nulls]
+    J --> L[View/Edit Data in Grid]
+    L --> M[Use Pagination Controls]
+```
+
+This diagram illustrates the structure of the Employees table in SSMS Object Explorer and the options for interacting with it.
+
