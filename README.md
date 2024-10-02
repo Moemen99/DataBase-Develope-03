@@ -388,3 +388,96 @@ graph TD
 
 This diagram illustrates the structure of the Employees table in SSMS Object Explorer and the options for interacting with it.
 
+
+
+## Creating the Departments Table
+
+Let's create the Departments table with all the specified columns and constraints. Here's the SQL command:
+
+```sql
+CREATE TABLE Departments
+(
+    DNumber int PRIMARY KEY IDENTITY(10,10),
+    DName varchar(30) NOT NULL,
+    ManagerId int REFERENCES Employees(Id),
+    MGRStartDate Date
+)
+```
+
+### Breakdown of the Table Structure:
+
+1. **Table Name:** Departments (plural)
+
+2. **Columns:**
+   - `DNumber`: Department Number
+     - Type: int
+     - Constraints: 
+       - PRIMARY KEY
+       - IDENTITY(10,10) (Auto-incrementing, starting at 10, incrementing by 10)
+   - `DName`: Department Name
+     - Type: varchar(30)
+     - Constraint: NOT NULL
+   - `ManagerId`: Manager's Employee ID
+     - Type: int
+     - Constraint: FOREIGN KEY referencing Employees(Id)
+   - `MGRStartDate`: Manager's Start Date
+     - Type: Date
+
+### Key Points:
+
+- The IDENTITY(10,10) constraint auto-generates DNumber values:
+  - Seed (starting value): 10
+  - Increment: 10
+  - This means the first department will have DNumber 10, the second 20, and so on.
+- The `ManagerId` column establishes a one-to-one optional relationship with the Employees table:
+  - Each department can have one manager (who is an employee)
+  - An employee may or may not manage a department (optional from the employee side)
+  - This is implemented by having the primary key of the Employees table (Id) as a foreign key in the Departments table (ManagerId)
+
+### Visual Table Structure and Relationships
+
+```mermaid
+erDiagram
+    Departments {
+        int DNumber PK
+        varchar30 DName
+        int ManagerId FK
+        Date MGRStartDate
+    }
+    Employees {
+        int Id PK
+        varchar20 FName
+        varchar20 LName
+        Date BDate
+        varchar30 Address
+        char1 Gender
+        decimal10_2 Salary
+        int FK_SuperId FK
+        int DeptNumber FK
+    }
+    Departments ||--o| Employees : "managed by"
+    Employees }|--|| Departments : "works in"
+```
+
+### Execution
+
+After writing the CREATE TABLE command in SSMS:
+1. Select the entire command
+2. Click "Execute" or press F5 to run the command
+
+Remember to refresh your database objects in the Object Explorer to see the newly created table.
+
+## Relationships between Employees and Departments
+
+Now that we have both the Employees and Departments tables, we can see two relationships:
+
+1. Manager Relationship (One-to-One, Optional):
+   - Represented by `ManagerId` in the Departments table
+   - One department is managed by one employee (optional for the employee)
+
+2. Employee-Department Relationship (Many-to-One):
+   - Represented by `DeptNumber` in the Employees table
+   - Many employees can work in one department
+
+Note: We still need to add the foreign key constraint for `DeptNumber` in the Employees table. This will be done in a future step using an ALTER TABLE command.
+
