@@ -726,3 +726,105 @@ Remember to refresh your database objects in the Object Explorer to see the newl
 
 This structure allows for a comprehensive representation of employees, departments, projects, and their interrelationships in the database.
 
+
+
+
+## Creating the Dependents Table
+
+Let's create the Dependents table, which represents a weak entity related to the Employees table. Here's the SQL command:
+
+```sql
+CREATE TABLE Dependents
+(
+    EmployeeId int REFERENCES Employees(Id),
+    DependentName varchar(20),
+    Gender char(1),
+    BDate Date,
+    Relationship varchar(30),
+    PRIMARY KEY (EmployeeId, DependentName)
+)
+```
+
+### Breakdown of the Dependents Table Structure:
+
+1. **Table Name:** Dependents
+
+2. **Columns:**
+   - `EmployeeId`: Employee ID
+     - Type: int
+     - Constraint: FOREIGN KEY referencing Employees(Id)
+   - `DependentName`: Dependent's Name
+     - Type: varchar(20)
+   - `Gender`: Dependent's Gender
+     - Type: char(1)
+   - `BDate`: Dependent's Birth Date
+     - Type: Date
+   - `Relationship`: Relationship to Employee
+     - Type: varchar(30)
+
+3. **Primary Key:**
+   - Composite key consisting of both `EmployeeId` and `DependentName`
+
+### Key Points:
+
+- This table represents a weak entity (Dependents) related to the strong entity (Employees).
+- The primary key is a composite key, combining the foreign key from the strong entity (EmployeeId) and a partial key of the weak entity (DependentName).
+- This structure allows an employee to have multiple dependents, each uniquely identified by the employee's ID and the dependent's name.
+
+### Visual Table Structure and Relationships
+
+```mermaid
+erDiagram
+    Employees {
+        int Id PK
+        varchar20 FName
+        varchar20 LName
+        Date BDate
+        varchar30 Address
+        char1 Gender
+        decimal10_2 Salary
+        int FK_SuperId FK
+        int DeptNumber FK
+    }
+    Dependents {
+        int EmployeeId PK,FK
+        varchar20 DependentName PK
+        char1 Gender
+        Date BDate
+        varchar30 Relationship
+    }
+    Employees ||--o{ Dependents : "has"
+```
+
+
+### Execution
+
+After writing the CREATE TABLE command in SSMS:
+1. Select the entire command
+2. Click "Execute" or press F5 to run the command
+
+Remember to refresh your database objects in the Object Explorer to see the newly created table.
+
+## Creating Database Diagrams in SSMS
+
+To create a visual representation of your database schema:
+
+1. In Object Explorer, expand your database.
+2. Right-click on the "Database Diagrams" folder.
+3. Choose "New Database Diagram".
+4. If prompted to create diagram support objects, click "Yes".
+5. In the "Add Table" dialog, select all the tables you want to include.
+6. Click "Add", then "Close".
+7. SSMS will generate a diagram showing all selected tables and their relationships.
+
+This diagram provides a visual representation of your database schema, showing tables, columns, and relationships between tables. It's a useful tool for understanding and documenting your database structure.
+
+### Key Benefits of Database Diagrams:
+
+- Visualize table relationships
+- Easily identify primary and foreign keys
+- Understand the overall structure of your database
+- Helpful for documentation and communication with team members
+
+Remember to save your diagram after creating it. You can later modify it by adding or removing tables, or by rearranging the layout for better clarity.
+
