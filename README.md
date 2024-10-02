@@ -481,3 +481,92 @@ Now that we have both the Employees and Departments tables, we can see two relat
 
 Note: We still need to add the foreign key constraint for `DeptNumber` in the Employees table. This will be done in a future step using an ALTER TABLE command.
 
+
+
+## Creating the Department_Locations Table
+
+Now, let's create the Department_Locations table to represent the multi-valued attribute of department locations. Here's the SQL command:
+
+```sql
+CREATE TABLE Department_Locations
+(
+    DepartmentNumber int REFERENCES Departments(DNumber),
+    DLocation VARCHAR(40),
+    PRIMARY KEY (DepartmentNumber, DLocation)
+)
+```
+
+### Breakdown of the Table Structure:
+
+1. **Table Name:** Department_Locations
+
+2. **Columns:**
+   - `DepartmentNumber`: Department Number
+     - Type: int
+     - Constraint: FOREIGN KEY referencing Departments(DNumber)
+   - `DLocation`: Department Location
+     - Type: VARCHAR(40)
+
+3. **Primary Key:**
+   - Composite key consisting of both `DepartmentNumber` and `DLocation`
+
+### Key Points:
+
+- This table represents a multi-valued attribute (locations) for departments.
+- The primary key is a composite key, meaning it's made up of multiple columns (DepartmentNumber and DLocation).
+- The `DepartmentNumber` is also a foreign key referencing the `DNumber` in the Departments table.
+- This structure allows a department to have multiple locations, and each location for a department must be unique.
+
+### Visual Table Structure and Relationships
+
+```mermaid
+erDiagram
+    Departments {
+        int DNumber PK
+        varchar30 DName
+        int ManagerId FK
+        Date MGRStartDate
+    }
+    Department_Locations {
+        int DepartmentNumber PK,FK
+        varchar40 DLocation PK
+    }
+    Employees {
+        int Id PK
+        varchar20 FName
+        varchar20 LName
+        Date BDate
+        varchar30 Address
+        char1 Gender
+        decimal10_2 Salary
+        int FK_SuperId FK
+        int DeptNumber
+    }
+    Departments ||--o{ Department_Locations : has
+    Employees ||--o{ Departments : manages
+    Departments ||--o{ Employees : employs
+```
+
+### Execution
+
+After writing the CREATE TABLE command in SSMS:
+1. Select the entire command
+2. Click "Execute" or press F5 to run the command
+
+Remember to refresh your database objects in the Object Explorer to see the newly created table.
+
+## Relationships Overview
+
+1. Departments to Department_Locations (One-to-Many):
+   - One department can have many locations
+   - Implemented via the foreign key `DepartmentNumber` in Department_Locations
+
+2. Departments to Employees (One-to-Many):
+   - One department can have many employees
+   - Implemented via the `DeptNumber` in Employees (to be added later)
+
+3. Employees to Departments (One-to-One, Optional) for Manager:
+   - One employee can manage at most one department
+   - Implemented via the `ManagerId` in Departments
+
+This structure allows for flexible representation of departments, their locations, and their employees, including management relationships.
