@@ -570,3 +570,159 @@ Remember to refresh your database objects in the Object Explorer to see the newl
    - Implemented via the `ManagerId` in Departments
 
 This structure allows for flexible representation of departments, their locations, and their employees, including management relationships.
+
+
+
+## Creating the Projects Table
+
+Let's create the Projects table with the specified columns and constraints. Here's the SQL command:
+
+```sql
+CREATE TABLE Projects
+(
+    PNumber int PRIMARY KEY IDENTITY(100,100),
+    PName varchar(25) NOT NULL,
+    PLocation varchar(30),
+    City varchar(25),
+    DepartmentNumber int REFERENCES Departments(DNumber)
+)
+```
+
+### Breakdown of the Projects Table Structure:
+
+1. **Table Name:** Projects
+
+2. **Columns:**
+   - `PNumber`: Project Number
+     - Type: int
+     - Constraints: PRIMARY KEY, IDENTITY(100,100)
+   - `PName`: Project Name
+     - Type: varchar(25)
+     - Constraint: NOT NULL
+   - `PLocation`: Project Location
+     - Type: varchar(30)
+   - `City`: Project City
+     - Type: varchar(25)
+   - `DepartmentNumber`: Controlling Department Number
+     - Type: int
+     - Constraint: FOREIGN KEY referencing Departments(DNumber)
+
+### Key Points:
+
+- The IDENTITY(100,100) constraint auto-generates PNumber values starting at 100 and incrementing by 100.
+- Each project is associated with one controlling department (many-to-one relationship).
+
+## Creating the Employees_Projects Table
+
+Now, let's create the Employees_Projects table to represent the many-to-many relationship between Employees and Projects. Here's the SQL command:
+
+```sql
+CREATE TABLE Employees_Projects
+(
+    EmployeeId int REFERENCES Employees(Id),
+    ProjectNumber int REFERENCES Projects(PNumber),
+    WHours int,
+    PRIMARY KEY (EmployeeId, ProjectNumber)
+)
+```
+
+### Breakdown of the Employees_Projects Table Structure:
+
+1. **Table Name:** Employees_Projects
+
+2. **Columns:**
+   - `EmployeeId`: Employee ID
+     - Type: int
+     - Constraint: FOREIGN KEY referencing Employees(Id)
+   - `ProjectNumber`: Project Number
+     - Type: int
+     - Constraint: FOREIGN KEY referencing Projects(PNumber)
+   - `WHours`: Working Hours
+     - Type: int
+
+3. **Primary Key:**
+   - Composite key consisting of both `EmployeeId` and `ProjectNumber`
+
+### Key Points:
+
+- This table represents a many-to-many relationship between Employees and Projects.
+- The primary key is a composite key, ensuring each employee-project combination is unique.
+- The `WHours` column represents the hours an employee works on a specific project.
+
+### Visual Table Structure and Relationships
+
+```mermaid
+erDiagram
+    Employees {
+        int Id PK
+        varchar20 FName
+        varchar20 LName
+        Date BDate
+        varchar30 Address
+        char1 Gender
+        decimal10_2 Salary
+        int FK_SuperId FK
+        int DeptNumber FK
+    }
+    Departments {
+        int DNumber PK
+        varchar30 DName
+        int ManagerId FK
+        Date MGRStartDate
+    }
+    Department_Locations {
+        int DepartmentNumber PK,FK
+        varchar40 DLocation PK
+    }
+    Projects {
+        int PNumber PK
+        varchar25 PName
+        varchar30 PLocation
+        varchar25 City
+        int DepartmentNumber FK
+    }
+    Employees_Projects {
+        int EmployeeId PK,FK
+        int ProjectNumber PK,FK
+        int WHours
+    }
+    Employees ||--o{ Departments : "works in"
+    Departments ||--o{ Department_Locations : "has location"
+    Employees |o--|| Departments : "manages"
+    Departments ||--o{ Projects : "controls"
+    Employees ||--o{ Employees_Projects : "works on"
+    Projects ||--o{ Employees_Projects : "has workers"
+```
+
+### Execution
+
+After writing each CREATE TABLE command in SSMS:
+1. Select the entire command
+2. Click "Execute" or press F5 to run the command
+
+Remember to refresh your database objects in the Object Explorer to see the newly created tables.
+
+## Relationships Overview
+
+1. Employees to Departments (Many-to-One):
+   - Many employees can work in one department
+   - Implemented via the `DeptNumber` in Employees
+
+2. Departments to Employees (One-to-One, Optional) for Manager:
+   - One department is managed by one employee (optional for the employee)
+   - Implemented via the `ManagerId` in Departments
+
+3. Departments to Department_Locations (One-to-Many):
+   - One department can have many locations
+   - Implemented via the foreign key `DepartmentNumber` in Department_Locations
+
+4. Departments to Projects (One-to-Many):
+   - One department can control many projects
+   - Implemented via the `DepartmentNumber` in Projects
+
+5. Employees to Projects (Many-to-Many):
+   - Many employees can work on many projects
+   - Implemented via the Employees_Projects junction table
+
+This structure allows for a comprehensive representation of employees, departments, projects, and their interrelationships in the database.
+
